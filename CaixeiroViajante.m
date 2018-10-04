@@ -9,10 +9,12 @@ x=rand(1,npar);
 y=rand(1,npar); % cidades em (cidadeX, cidadeY)
 
 % Adiciona o numero maximo de interacoes (Criterio de Parada)
+maxit = 1;  %TODO: Alterar isso aqui!
 
-% Parametros do AG
+% Parametros do AG ???
 % tamanho da populacao
-% taxa de mutacao (probabilidade de 0.05)
+tamPop = 20;
+indMut = 0.005 % taxa de mutacao (probabilidade de 0.05)
 selecao=0.5; % fracao da populacao a ser mantida
 manter=floor(selecao*tamPop); % numero de membros da populacao que sobrevivem
 M=ceil((tamPop-manter)/2); % numero de cruzamentos
@@ -25,17 +27,24 @@ end
 Nprobab=length(probab);
 probab=manter-probab+1; 
 
-
 % Gerar a populacao inicial
 iag=0; % contador para iniciar a geracao
 % gerar a populacao aleatoria (Veja funcao randperm)
+for i = 1:20
+    populacao(i,:) = randperm(20);
+endfor;
 % deve ser uma matriz 20x20 (cromossomo + n. da populacao)
 
 %calcular o custo da populacao utilizando a funcao de aptidao
+dist = cvfun(populacao);
 % colocar o custo minimo no elemento 1 (Veja funcao sort)
+%k = custos organizados
+%m = indices dos custos
+[k,m] = sort(dist);
 % organizar a populacao com o custo mais baixo primeiro
-% calcula o custo minimo da populacao (veja funcao min)
-% calcula a media aritmetica da populacao (veja funcao mean)
+populacao = populacao(m,:);
+
+% calcula o custo minimo da populacao (veja funcao min) ??
 
 
 %% Interacao pelas geracoes (LOOP PRINCIPAL)
@@ -46,17 +55,34 @@ while iag<maxit
     % probab
     escolha1=ceil(Nprobab*rand(1,M)); % escolher aleatoriamente na roleta os indivíduos
     escolha2=ceil(Nprobab*rand(1,M)); % escolher aleatoriamente na roleta os indivíduos
+  
     indPai1=probab(escolha1); % selecionar os indices escolhidos na roleta para o pai 1
     indPai2=probab(escolha2); % selecionar os indices escolhidos na roleta para o pai 2
     
     % Execucao da Recombinacao (crossover)
-    for ic=1:M
+    for ic = 1:M
         %seleciona o Pai 1
+        pai1 = populacao(indPai1(ic),:);
         %seleciona o Pai 2 
+        pai2 = populacao(indPai2(ic),:);
        
-        
         % Faz a técnica de recombinação Cycle
-
+        
+        %busca indice aleátorio entre 1 e 20
+        randomArray = (1-1) + (20-(1-1))*rand(1,5);
+        ind = floor(randomArray) + 1;        
+        
+        %Faz a troca do indice aleátorio entre os pais 1 e 2
+        numTemp = pai2(1,ind);  %guarda numero do pai 2
+        pai2(1,ind) = pai1(ind);  %subtitui no pai 2
+        pai1(1,ind) = numTemp;  %substitui no pai 1
+        
+        %PESQUISAR METODO FIND
+        %ind ~= ind ??
+        %se encontrar um indice que é diferente do que eu acabei de encontrar, NÃO ESQUECE DISSO!
+        
+    endfor;
+     
     % Faz a Mutacao da populacao
 
    
@@ -65,7 +91,7 @@ while iag<maxit
     
     %_______________________________________________________
     % Organiza em ordem crescente os custos e associa aos parametros
-  endfor
+
 end %iga
 
 
