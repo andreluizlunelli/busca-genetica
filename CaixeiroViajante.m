@@ -69,18 +69,24 @@ while iag<maxit
         % Faz a técnica de recombinação Cycle
         
         %busca indice aleátorio entre 1 e 20
-        randomArray = (1-1) + (20-(1-1))*rand(1,5);
-        ind = floor(randomArray) + 1;        
-        
+        ind = ceil(rand*20); %pega numero aleatorio entre 1 e 20        
+                
         %Faz a troca do indice aleátorio entre os pais 1 e 2
         numTemp = pai2(1,ind);  %guarda numero do pai 2
         pai2(1,ind) = pai1(ind);  %subtitui no pai 2
         pai1(1,ind) = numTemp;  %substitui no pai 1
         
+        [ix,iy] = find(pai1==numTemp);
+        while (iy ~= ind)
+          ind = iy;
+          numTemp = pai2(1,ind);  %guarda numero do pai 2
+          pai2(1,ind) = pai1(ind);  %subtitui no pai 2
+          pai1(1,ind) = numTemp;  %substitui no pai 1          
+          [ix,iy] = find(pai1==numTemp);
+        endwhile;
         %PESQUISAR METODO FIND
         %ind ~= ind ??
-        %se encontrar um indice que é diferente do que eu acabei de encontrar, NÃO ESQUECE DISSO!
-        
+        %se encontrar um indice que é diferente do que eu acabei de encontrar, NÃO ESQUECE DISSO!        
     endfor;
      
     % Faz a Mutacao da populacao
