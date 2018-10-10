@@ -66,6 +66,9 @@ while iag<maxit
         %seleciona o Pai 2 
         pai2 = populacao(indPai2(ic),:);
        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % CYCLE
+        %
         % Faz a técnica de recombinação Cycle
         
         %busca indice aleátorio entre 1 e 20
@@ -76,17 +79,28 @@ while iag<maxit
         pai2(1,ind) = pai1(ind);  %subtitui no pai 2
         pai1(1,ind) = numTemp;  %substitui no pai 1
         
-        [ix,iy] = find(pai1==numTemp);
-        while (iy ~= ind)
-          ind = iy;
+        indAnterior = ind;        
+        while (length(find(pai1==numTemp)) > 1) % busca os elementos repetidos( numTemp ) dentro do pai
+          indDuplicado = find(pai1==numTemp);
+          
+          % faz o if para não pegar o mesmo indice da iteração anterior
+          if (indDuplicado(1) == indAnterior)
+            ind = indDuplicado(2);
+          else 
+            ind = indDuplicado(1);
+          endif  
+            
           numTemp = pai2(1,ind);  %guarda numero do pai 2
           pai2(1,ind) = pai1(ind);  %subtitui no pai 2
-          pai1(1,ind) = numTemp;  %substitui no pai 1          
-          [ix,iy] = find(pai1==numTemp);
+          pai1(1,ind) = numTemp;  %substitui no pai 1                    
+          indAnterior = ind;
         endwhile;
         %PESQUISAR METODO FIND
         %ind ~= ind ??
         %se encontrar um indice que é diferente do que eu acabei de encontrar, NÃO ESQUECE DISSO!        
+        
+        % FIM CYCLE
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
     endfor;
      
     % Faz a Mutacao da populacao
