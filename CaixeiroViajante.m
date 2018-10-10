@@ -1,6 +1,6 @@
 close all; clc; clear;
 
-global iag x y
+global iag x y npar
 %% Configuracao Inicial
 npar=20; % numero das variaveis para serem otimizadas (genes)
 Nt=npar; % numero de colunas da matriz de populacao
@@ -104,7 +104,7 @@ while iag<maxit
     endfor;
      
     % Faz a Mutacao da populacao
-
+    [paiMutacao1, paiMutacao2] = mutacao (pai1, pai2);
    
     % Se calcula um novo custo para a nova população
     
