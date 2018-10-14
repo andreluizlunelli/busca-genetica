@@ -14,7 +14,7 @@ maxit = 1;  %TODO: Alterar isso aqui!
 % Parametros do AG ???
 % tamanho da populacao
 tamPop = 20;
-indMut = 0.005 % taxa de mutacao (probabilidade de 0.05)
+%indMut = 0.05 % taxa de mutacao (probabilidade de 0.05)
 selecao=0.5; % fracao da populacao a ser mantida
 manter=floor(selecao*tamPop); % numero de membros da populacao que sobrevivem
 M=ceil((tamPop-manter)/2); % numero de cruzamentos
@@ -44,9 +44,6 @@ dist = cvfun(populacao);
 % organizar a populacao com o custo mais baixo primeiro
 populacao = populacao(m,:);
 
-% calcula o custo minimo da populacao (veja funcao min) ??
-
-
 %% Interacao pelas geracoes (LOOP PRINCIPAL)
 while iag<maxit
     iag=iag+1; % incrementa o contador de geracoes
@@ -59,6 +56,7 @@ while iag<maxit
     indPai1=probab(escolha1); % selecionar os indices escolhidos na roleta para o pai 1
     indPai2=probab(escolha2); % selecionar os indices escolhidos na roleta para o pai 2
     
+    indSub = 11;  %indice da população que será substituido 
     % Execucao da Recombinacao (crossover)
     for ic = 1:M
         %seleciona o Pai 1
@@ -95,22 +93,29 @@ while iag<maxit
           pai1(1,ind) = numTemp;  %substitui no pai 1                    
           indAnterior = ind;
         endwhile;
-        %PESQUISAR METODO FIND
-        %ind ~= ind ??
-        %se encontrar um indice que é diferente do que eu acabei de encontrar, NÃO ESQUECE DISSO!        
-        
         % FIM CYCLE
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
+
+        % Faz a Mutacao da populacao
+        [paiMutacao1, paiMutacao2] = mutacao (pai1, pai2);
+        
+        populacao(indSub,:) = paiMutacao1;
+        indSub = indSub + 1;
+        populacao(indSub,:) = paiMutacao2;        
+        indSub = indSub + 1;
     endfor;
      
-    % Faz a Mutacao da populacao
-    [paiMutacao1, paiMutacao2] = mutacao (pai1, pai2);
    
     % Se calcula um novo custo para a nova população
-    
-    
+    dist = cvfun(populacao);
     %_______________________________________________________
     % Organiza em ordem crescente os custos e associa aos parametros
+    % colocar o custo minimo no elemento 1
+    %k = custos organizados
+    %m = indices dos custos
+    [k,m] = sort(dist);
+    % organizar a populacao com o custo mais baixo primeiro
+    populacao = populacao(m,:);
 
 end %iga
 
