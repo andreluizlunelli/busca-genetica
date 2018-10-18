@@ -9,7 +9,7 @@ x=rand(1,npar);
 y=rand(1,npar); % cidades em (cidadeX, cidadeY)
 
 % Adiciona o numero maximo de interacoes (Criterio de Parada)
-maxit = 1;  %TODO: Alterar isso aqui!
+maxit = 10000;  %TODO: Alterar isso aqui!
 
 % Parametros do AG ???
 % tamanho da populacao
@@ -122,4 +122,6 @@ end %iga
 
 %_______________________________________________________
 % Mostrar os resultados
-
+figure(1);
+plot([x(populacao(1,:)) x(populacao(1,1))], [y(populacao(1,:)) y(populacao(1,1))],x,y,'*');
+axis square;
